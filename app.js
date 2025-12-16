@@ -216,17 +216,42 @@ function setupTheme() {
     });
 }
 
+function toggleRightSidebar() {
+    document.body.classList.toggle('right-sidebar-open');
+}
+
 function setupMobileMenu() {
     const menuToggle = document.getElementById('menu-toggle');
     const sidebar = document.getElementById('sidebar');
+    const notepadToggle = document.getElementById('notepad-toggle');
+    const rightSidebar = document.getElementById('right-sidebar');
 
-    menuToggle.addEventListener('click', () => {
+    menuToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
         document.body.classList.toggle('sidebar-open');
+        if (document.body.classList.contains('right-sidebar-open')) {
+            document.body.classList.remove('right-sidebar-open');
+        }
     });
 
     sidebar.addEventListener('click', (event) => {
         if (event.target.tagName === 'BUTTON' && window.innerWidth <= 992) {
             document.body.classList.remove('sidebar-open');
+        }
+    });
+    
+    // Toggle function is called inline in HTML, but we also handle outside clicks here
+    
+    document.addEventListener('click', (event) => {
+        const isClickInsideLeft = sidebar.contains(event.target) || menuToggle.contains(event.target);
+        const isClickInsideRight = rightSidebar.contains(event.target) || notepadToggle.contains(event.target);
+        
+        if (!isClickInsideLeft && document.body.classList.contains('sidebar-open')) {
+            document.body.classList.remove('sidebar-open');
+        }
+        
+        if (!isClickInsideRight && document.body.classList.contains('right-sidebar-open')) {
+            document.body.classList.remove('right-sidebar-open');
         }
     });
 }
