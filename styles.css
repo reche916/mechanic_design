@@ -558,11 +558,18 @@ body.dark-mode #quiz-feedback.incorrect { color: #fee2e2; }
 
 @media (max-width: 992px) {
     #sidebar {
+        transform: translateX(-100%);
         box-shadow: var(--shadow-lg);
     }
     
     #main-content {
+        margin-left: 0;
+        margin-right: 0;
         padding: 4rem 1rem 1rem; 
+    }
+
+    body.sidebar-open #sidebar {
+        transform: translateX(0);
     }
 }
 

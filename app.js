@@ -554,7 +554,7 @@ function startMockExam() {
     quizState = 'EXAM';
     document.getElementById('quiz-timer').style.display = 'block';
     
-    examTimeRemaining = 20 * 60; // 20 minutes in seconds
+    examTimeRemaining = 20 * 60; 
     updateTimerDisplay();
     
     if (examTimerInterval) clearInterval(examTimerInterval);
@@ -564,8 +564,8 @@ function startMockExam() {
         if (examTimeRemaining <= 0) {
             clearInterval(examTimerInterval);
             alert('考试时间到！即将提交试卷。');
-            closeQuiz(); // Or show results directly
-            showQuizResults(); // Reuse result screen
+            closeQuiz(); 
+            showQuizResults(); 
         }
     }, 1000);
 }
