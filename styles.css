@@ -1,37 +1,34 @@
-/* Modern Design System - Mechanical Design Quiz */
-
 :root {
-    /* Color Palette - Indigo/Slate Theme */
-    --primary: #6366f1;       /* Indigo 500 */
-    --primary-hover: #4f46e5; /* Indigo 600 */
-    --primary-light: #e0e7ff; /* Indigo 100 */
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --primary-light: #e0e7ff;
     
-    --secondary: #ec4899;     /* Pink 500 - for accents/favorites */
+    --secondary: #ec4899;
     --secondary-hover: #db2777;
     
-    --success: #10b981;       /* Emerald 500 */
-    --success-bg: #d1fae5;    /* Emerald 100 */
+    --success: #10b981;
+    --success-bg: #d1fae5;
     
-    --error: #ef4444;         /* Red 500 */
-    --error-bg: #fee2e2;      /* Red 100 */
+    --error: #ef4444;
+    --error-bg: #fee2e2;
     
-    --warning: #f59e0b;       /* Amber 500 */
+    --warning: #f59e0b;
     
     --surface-100: #ffffff;
-    --surface-200: #f8fafc;   /* Slate 50 */
-    --surface-300: #f1f5f9;   /* Slate 100 */
+    --surface-200: #f8fafc;
+    --surface-300: #f1f5f9;
     
-    --text-main: #0f172a;     /* Slate 900 */
-    --text-muted: #64748b;    /* Slate 500 */
-    --text-light: #94a3b8;    /* Slate 400 */
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --text-light: #94a3b8;
     
-    --border: #e2e8f0;        /* Slate 200 */
+    --border: #e2e8f0;
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     
-    --radius-md: 0.5rem;      /* 8px */
-    --radius-lg: 1rem;        /* 16px */
+    --radius-md: 0.5rem;
+    --radius-lg: 1rem;
     --radius-full: 9999px;
     
     --font-heading: 'Noto Sans SC', sans-serif;
@@ -39,33 +36,32 @@
 }
 
 body.dark-mode {
-    --primary: #818cf8;       /* Indigo 400 */
+    --primary: #818cf8;
     --primary-hover: #6366f1;
     --primary-light: rgba(99, 102, 241, 0.15);
     
-    --secondary: #f472b6;     /* Pink 400 */
+    --secondary: #f472b6;
     
-    --success: #34d399;       /* Emerald 400 */
+    --success: #34d399;
     --success-bg: rgba(16, 185, 129, 0.15);
     
-    --error: #f87171;         /* Red 400 */
+    --error: #f87171;
     --error-bg: rgba(239, 68, 68, 0.15);
     
-    --surface-100: #1e293b;   /* Slate 800 */
-    --surface-200: #0f172a;   /* Slate 900 */
-    --surface-300: #334155;   /* Slate 700 */
+    --surface-100: #1e293b;
+    --surface-200: #0f172a;
+    --surface-300: #334155;
     
-    --text-main: #f1f5f9;     /* Slate 100 */
-    --text-muted: #94a3b8;    /* Slate 400 */
-    --text-light: #64748b;    /* Slate 500 */
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --text-light: #64748b;
     
-    --border: #334155;        /* Slate 700 */
+    --border: #334155;
     
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3);
 }
 
-/* Reset & Base Styles */
 * {
     box-sizing: border-box;
 }
@@ -90,7 +86,6 @@ button {
     font-family: var(--font-body);
 }
 
-/* Layout */
 #sidebar {
     width: 280px;
     position: fixed;
@@ -105,7 +100,6 @@ button {
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Global Scrollbar Styling */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -118,7 +112,7 @@ button {
 ::-webkit-scrollbar-thumb {
     background-color: var(--border);
     border-radius: 4px;
-    border: 2px solid transparent; /* Creates padding effect */
+    border: 2px solid transparent;
     background-clip: content-box;
 }
 
@@ -126,7 +120,6 @@ button {
     background-color: var(--text-light);
 }
 
-/* Sidebar Specific (Seamless) */
 #sidebar::-webkit-scrollbar,
 #right-sidebar::-webkit-scrollbar {
     width: 6px;
@@ -134,7 +127,7 @@ button {
 
 #main-content {
     margin-left: 280px;
-    margin-right: 280px; /* Space for right sidebar */
+    margin-right: 280px;
     padding: 2rem;
     min-height: 100vh;
     display: flex;
@@ -149,7 +142,6 @@ button {
     box-shadow: none;
 }
 
-/* Typography & Headers */
 h1#main-title {
     font-size: 1.75rem;
     font-weight: 700;
@@ -177,12 +169,11 @@ h1#main-title {
 }
 
 .sidebar-header::before {
-    content: '\f013'; /* FontAwesome gear icon */
+    content: '\f013';
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
 }
 
-/* Dark Mode Toggle */
 .dark-mode-toggle {
     display: flex;
     align-items: center;
@@ -195,7 +186,6 @@ h1#main-title {
     color: var(--text-main);
 }
 
-/* Custom Switch */
 .switch { position: relative; display: inline-block; width: 40px; height: 22px; }
 .switch input { display: none; }
 .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--text-muted); transition: .4s; border-radius: 22px; opacity: 0.5; }
@@ -203,7 +193,6 @@ h1#main-title {
 input:checked + .slider { background-color: var(--primary); opacity: 1; }
 input:checked + .slider:before { transform: translateX(18px); }
 
-/* Sidebar Navigation */
 .sidebar-section {
     margin-bottom: 1.5rem;
 }
@@ -218,7 +207,6 @@ input:checked + .slider:before { transform: translateX(18px); }
     border: none;
 }
 
-/* Sidebar Buttons */
 .sidebar-button, .chapter-type-button, .chapter-test-button, .chapter-wrong-button {
     width: 100%;
     padding: 0.6rem 1rem;
@@ -254,7 +242,6 @@ input:checked + .slider:before { transform: translateX(18px); }
 .sidebar-button.wrong { color: var(--error); }
 .sidebar-button.wrong:hover { background-color: var(--error-bg); }
 
-/* Chapter Accordion */
 #chapter-nav-list details {
     margin-bottom: 0.5rem;
     border: 1px solid var(--border);
@@ -279,7 +266,7 @@ input:checked + .slider:before { transform: translateX(18px); }
 }
 
 #chapter-nav-list summary::after {
-    content: '\f054'; /* FontAwesome chevron-right */
+    content: '\f054';
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
     font-size: 0.8rem;
@@ -315,9 +302,8 @@ input:checked + .slider:before { transform: translateX(18px); }
     color: white !important;
 }
 
-/* Global Controls (Top Bar) */
 #global-controls {
-    display: none; /* Flex when active */
+    display: none;
     flex-wrap: wrap;
     gap: 0.75rem;
     justify-content: center;
@@ -354,7 +340,6 @@ input:checked + .slider:before { transform: translateX(18px); }
 #toggle-favorites-btn { background-color: var(--surface-100); color: var(--secondary); border: 1px solid var(--secondary); }
 #toggle-all-answers-btn { background-color: var(--surface-300); color: var(--text-main); }
 
-/* Question Cards */
 .question-block {
     background-color: var(--surface-100);
     padding: 1.5rem;
@@ -364,7 +349,7 @@ input:checked + .slider:before { transform: translateX(18px); }
     border: 1px solid var(--border);
     transition: transform 0.2s, box-shadow 0.2s;
     animation: slideUp 0.3s ease-out;
-    display: none; /* Toggled by JS */
+    display: none;
 }
 
 .question-block.visible { display: block; }
@@ -374,13 +359,12 @@ input:checked + .slider:before { transform: translateX(18px); }
 }
 
 .question-block p {
-    font-size: 1.1rem; /* Slightly larger */
-    font-weight: 600;  /* Bolder */
+    font-size: 1.1rem;
+    font-weight: 600;
     margin-bottom: 1rem;
-    color: #000000;    /* Pure black for max contrast (light mode) */
+    color: #000000;
 }
 
-/* Options List */
 .question-block ul {
     list-style: none;
     padding: 0;
@@ -393,9 +377,9 @@ input:checked + .slider:before { transform: translateX(18px); }
     padding: 0.75rem 1rem;
     background-color: var(--surface-200);
     border-radius: var(--radius-md);
-    color: var(--text-main); /* Use main text instead of muted */
-    font-weight: 500;        /* Slightly bolder */
-    font-size: 1rem;         /* Slightly larger */
+    color: var(--text-main);
+    font-weight: 500;
+    font-size: 1rem;
     border: 1px solid transparent;
     transition: border-color 0.2s;
 }
@@ -404,7 +388,6 @@ input:checked + .slider:before { transform: translateX(18px); }
     border-color: var(--primary-light);
 }
 
-/* Answer & Actions Area */
 .action-buttons-container {
     display: flex;
     flex-wrap: wrap;
@@ -448,24 +431,23 @@ input:checked + .slider:before { transform: translateX(18px); }
     width: 100%;
 }
 
-/* Quiz Modal */
 #quiz-modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1000; /* Sit on top */
+    display: none;
+    position: fixed;
+    z-index: 1000;
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(15, 23, 42, 0.7); /* Dark backdrop */
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(15, 23, 42, 0.7);
     backdrop-filter: blur(4px);
     padding-top: 60px;
 }
 
 #quiz-container {
     background-color: var(--surface-100);
-    margin: 5% auto; /* 15% from the top and centered */
+    margin: 5% auto;
     border: 1px solid var(--border);
     box-shadow: var(--shadow-lg);
     border-radius: var(--radius-lg);
@@ -532,14 +514,14 @@ input:checked + .slider:before { transform: translateX(18px); }
 
 #quiz-feedback.correct {
     background-color: var(--success-bg);
-    color: #065f46; /* darker emerald */
+    color: #065f46;
     border: 1px solid var(--success);
 }
 body.dark-mode #quiz-feedback.correct { color: #d1fae5; }
 
 #quiz-feedback.incorrect {
     background-color: var(--error-bg);
-    color: #991b1b; /* darker red */
+    color: #991b1b;
     border: 1px solid var(--error);
 }
 body.dark-mode #quiz-feedback.incorrect { color: #fee2e2; }
@@ -547,13 +529,31 @@ body.dark-mode #quiz-feedback.incorrect { color: #fee2e2; }
 #submit-answer-btn { background-color: var(--primary); color: white; width: 100%; justify-content: center; margin-top: 1rem; font-size: 1rem; padding: 0.8rem;}
 #next-question-btn { background-color: var(--primary); color: white; width: 100%; justify-content: center; margin-top: 1rem; font-size: 1rem; padding: 0.8rem;}
 
-/* Mobile Responsiveness */
 #menu-toggle {
+    display: none;
+    position: fixed;
     top: 1rem;
     left: 1rem;
+    z-index: 100;
+    width: 45px;
+    height: 45px;
+    border-radius: var(--radius-md);
     background-color: var(--surface-100);
     box-shadow: var(--shadow-md);
     border: 1px solid var(--border);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+#menu-toggle span {
+    width: 24px;
+    height: 3px;
+    background-color: var(--primary);
+    border-radius: 2px;
+    transition: all 0.3s;
 }
 
 @media (max-width: 992px) {
@@ -571,9 +571,12 @@ body.dark-mode #quiz-feedback.incorrect { color: #fee2e2; }
     body.sidebar-open #sidebar {
         transform: translateX(0);
     }
+    
+    #menu-toggle {
+        display: flex;
+    }
 }
 
-/* Animations */
 @keyframes slideUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -589,13 +592,11 @@ body.dark-mode #quiz-feedback.incorrect { color: #fee2e2; }
     font-size: 1.1rem;
 }
 
-/* Search Input Focus */
 #global-search:focus {
     border-color: var(--primary);
     box-shadow: 0 0 0 3px var(--primary-light);
 }
 
-/* Modals (Generic) */
 .modal {
     display: none; 
     position: fixed; 
@@ -632,7 +633,6 @@ body.dark-mode #quiz-feedback.incorrect { color: #fee2e2; }
 }
 .close-modal:hover { color: var(--text-main); }
 
-/* Stats Table */
 #stats-table th { color: var(--text-muted); font-size: 0.9rem; }
 #stats-table td { padding: 12px 10px; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
 
@@ -649,7 +649,6 @@ body.dark-mode #quiz-feedback.incorrect { color: #fee2e2; }
     border-radius: 4px;
 }
 
-/* Right Sidebar (Notebook) */
 #right-sidebar {
     width: 280px;
     background-color: var(--surface-100);
@@ -703,7 +702,6 @@ body.dark-mode #quiz-feedback.incorrect { color: #fee2e2; }
 }
 .text-button:hover { color: var(--error) !important; }
 
-/* Glassmorphism Logic for Custom Wallpaper */
 body.has-wallpaper {
     background-size: cover;
     background-position: center;
@@ -748,7 +746,6 @@ body.has-wallpaper.dark-mode .explanation-span {
     border-color: rgba(255,255,255,0.1);
 }
 
-/* Ensure text remains readable */
 body.has-wallpaper #main-title {
     text-shadow: 0 2px 4px rgba(0,0,0,0.1);
     background: none;
@@ -756,12 +753,11 @@ body.has-wallpaper #main-title {
     color: var(--text-main);
 }
 
-/* Responsive Adjustments */
 @media (max-width: 1100px) {
     #right-sidebar {
         display: none;
     }
     #main-content {
-        margin-right: 0; /* Reclaim space */
+        margin-right: 0;
     }
 }

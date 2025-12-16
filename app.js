@@ -9,13 +9,12 @@ let quizLength = 0;
 let activeChapterButton = null;
 let activeChapter = null;
 let activeType = null;
-let quizState = 'IDLE'; // 'IDLE', 'ANSWERING', 'FEEDBACK'
+let quizState = 'IDLE';
 
 const FAVORITES_KEY = 'mech_design_quiz_favorites';
 const WRONG_ANSWERS_KEY = 'mech_design_wrong_answers_by_chapter';
 const THEME_KEY = 'mech_design_theme';
 
-// --- 所有功能函数 ---
 function typesetMath(elements) {
     if (window.MathJax && elements && elements.length > 0) {
         try {
@@ -431,14 +430,12 @@ function showAllFavorites() {
 function filterQuestions(query) {
     const searchTerm = query.trim().toLowerCase();
     
-    // Clear active states
     if (activeChapterButton) {
         activeChapterButton.classList.remove('active');
         activeChapterButton = null;
     }
     
     if (searchTerm.length === 0) {
-        // Reset view: hide all questions, show welcome message
         document.querySelectorAll('.question-block').forEach(b => b.classList.remove('visible'));
         
         document.getElementById('welcome-message').style.display = 'block';
@@ -449,17 +446,11 @@ function filterQuestions(query) {
     }
 
     document.getElementById('welcome-message').style.display = 'none';
-    updateGlobalControls(true, { showFavoriteFilter: true }); // Enable favorites filter even in search
+    updateGlobalControls(true, { showFavoriteFilter: true });
     document.getElementById('main-title').textContent = `搜索结果: "${query}"`;
     
-    // Do NOT clear innerHTML, as it destroys the question blocks needed for the rest of the app
-    // const contentArea = document.getElementById('content-area');
-    // contentArea.innerHTML = ''; 
-    
-    // Optimization: querySelectorAll is fast enough for < 2000 items.
     let count = 0;
     document.querySelectorAll('.question-block').forEach(block => {
-        // use textContent instead of innerText because innerText ignores hidden elements (display: none)
         const text = block.textContent.toLowerCase();
         if (text.includes(searchTerm)) {
             block.classList.add('visible');
@@ -474,14 +465,6 @@ function filterQuestions(query) {
         document.getElementById('welcome-message').style.display = 'block';
         document.getElementById('welcome-message').innerHTML = `<p>未找到包含 "${query}" 的题目。</p>`;
     } else {
-        // Typeset only visible - might be heavy if many results, but okay for filter.
-        // To avoid freezing, maybe only typeset matches?
-        // typesetMath(document.querySelectorAll('.question-block.visible')); 
-        // MathJax typeset is heavy, let's skip auto-typeset on search for now unless user reveals answer? 
-        // Or just typeset the first few? 
-        // Actually the blocks might already be typeset if they were viewed before?
-        // MathJax 3 acts globally usually. 
-        // Let's just typeset visible matches.
          typesetMath(document.querySelectorAll('.question-block.visible'));
     }
 }
@@ -538,19 +521,16 @@ function startQuiz(questionPool, numQuestions, title) {
     displayQuizQuestion();
 }
 
-// Exam Variables
 let examTimerInterval = null;
 let examTimeRemaining = 0;
 
 function startMockExam() {
-    // 30 MCQ + 20 TF
     const mcqs = [...mcq_data].sort(() => 0.5 - Math.random()).slice(0, 30);
     const tfs = [...tf_data].sort(() => 0.5 - Math.random()).slice(0, 20);
-    const questions = [...mcqs, ...tfs].sort(() => 0.5 - Math.random()); // Mix them? Or keep separate? Mixed is harder.
+    const questions = [...mcqs, ...tfs].sort(() => 0.5 - Math.random());
     
     startQuiz(questions, 50, '模拟考试 (20分钟)');
     
-    // Override standard quiz setup for Exam Mode
     quizState = 'EXAM';
     document.getElementById('quiz-timer').style.display = 'block';
     
@@ -637,11 +617,9 @@ function displayQuizQuestion() {
         document.getElementById('submit-answer-btn').style.display = 'inline-block';
         document.getElementById('next-question-btn').style.display = 'none';
         
-        // MathJax typeset for the new question content
-        // MathJax typeset for the new question content
         typesetMath([questionContainer]);
         
-        quizState = 'ANSWERING'; // Enable input
+        quizState = 'ANSWERING';
 
     } else {
         showQuizResults();
@@ -659,7 +637,7 @@ function submitQuizAnswer(skipped = false) {
     const question = quizQuestions[currentQuestionIndex];
     const isCorrect = !skipped && (userAnswer === question.answer);
     
-    updateStats(question, isCorrect); // Track stats
+    updateStats(question, isCorrect);
 
     if (isCorrect) score++;
     else addWrongAnswer(question.qid, question.chapter);
@@ -676,13 +654,12 @@ function submitQuizAnswer(skipped = false) {
         `<br><br><div class="explanation-span">解析：${explanationText}</div>`;
     feedbackEl.style.display = 'block';
 
-    // MathJax typeset for the explanation in feedback
     typesetMath([feedbackEl]);
 
     document.getElementById('submit-answer-btn').style.display = 'none';
     document.getElementById('next-question-btn').style.display = 'inline-block';
     
-    quizState = 'FEEDBACK'; // Update state
+    quizState = 'FEEDBACK';
 }
 
 function nextQuizQuestion() {
@@ -735,23 +712,19 @@ function showDashboard() {
     loadStats();
     document.getElementById('dashboard-modal').style.display = 'block';
     
-    // Summary
     document.getElementById('stat-total').textContent = userStats.total;
     const rate = userStats.total === 0 ? 0 : Math.round((userStats.correct / userStats.total) * 100);
     document.getElementById('stat-correct').textContent = `${rate}%`;
     document.getElementById('stat-correct').style.color = rate >= 60 ? 'var(--success)' : 'var(--error)';
     
-    // Calculate total wrong
     let totalWrong = 0;
     Object.values(wrongAnswersByChapter).forEach(arr => totalWrong += arr.length);
     document.getElementById('stat-wrong-count').textContent = totalWrong;
 
-    // Table
     const tbody = document.getElementById('stats-table-body');
     tbody.innerHTML = '';
     
-    // Iterate all chapters (even if no stats yet)
-    Object.keys(all_data).sort((a, b) => { // Use same sort order as sidebar
+    Object.keys(all_data).sort((a, b) => {
          const numA = parseInt(a.match(/第(\S+)章/)[1].replace(/[\u4e00-\u9fa5]/g, match => ' 一二三四五六七八九十'.indexOf(match)));
          const numB = parseInt(b.match(/第(\S+)章/)[1].replace(/[\u4e00-\u9fa5]/g, match => ' 一二三四五六七八九十'.indexOf(match)));
          return numA - numB;
@@ -822,9 +795,8 @@ function clearNotepad() {
     }
 }
 
-// --- Wallpaper Logic ---
 const WALLPAPER_KEY = 'mech_design_wallpaper';
-let cropper; // Cropper instance
+let cropper;
 
 function initWallpaper() {
     const savedWallpaper = localStorage.getItem(WALLPAPER_KEY);
@@ -847,7 +819,7 @@ function handleWallpaperUpload(input) {
     const file = input.files[0];
     if (!file) return;
 
-    if (file.size > 5 * 1024 * 1024) { // Increased limit for crop source (5MB)
+    if (file.size > 5 * 1024 * 1024) {
         alert('图片太大了！请上传 5MB 以内的图片。');
         input.value = '';
         return;
@@ -857,7 +829,6 @@ function handleWallpaperUpload(input) {
     reader.onload = function(e) {
         const image = document.getElementById('cropper-image');
         
-        // Destroy previous instance first if exists
         if (cropper) {
             cropper.destroy();
             cropper = null;
@@ -865,38 +836,35 @@ function handleWallpaperUpload(input) {
 
         image.src = e.target.result;
         
-        // Show Modal
         document.getElementById('cropper-modal').style.display = 'block';
         
-        // Wait for image to load naturally before firing Cropper
         image.onload = function() {
             cropper = new Cropper(image, {
                 aspectRatio: NaN, 
                 viewMode: 1, 
                 autoCropArea: 0.9,
                 responsive: true,
-                restore: false, // Don't restore previous crop box
+                restore: false,
                 checkCrossOrigin: false,
             });
         };
     };
     reader.readAsDataURL(file);
-    input.value = ''; // Reset
+    input.value = '';
 }
 
 function confirmCrop() {
     if (!cropper) return;
     
-    // Get cropped result
     const canvas = cropper.getCroppedCanvas({
-        maxWidth: 1920, // Optimization: resize if huge
+        maxWidth: 1920,
         maxHeight: 1080
     });
     
     if (!canvas) return;
 
     try {
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.85); // Compress slightly
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
         localStorage.setItem(WALLPAPER_KEY, dataUrl);
         applyWallpaper(dataUrl);
         closeCropper();
@@ -932,10 +900,10 @@ function exportData() {
         favorites,
         wrongAnswersByChapter,
         userStats,
-        notepad: localStorage.getItem(NOTEPAD_KEY) || '' // Include notepad
+        notepad: localStorage.getItem(NOTEPAD_KEY) || ''
     };
     const json = JSON.stringify(data);
-    const encoded = btoa(unescape(encodeURIComponent(json))); // Base64 safe handling
+    const encoded = btoa(unescape(encodeURIComponent(json)));
     document.getElementById('data-area').value = encoded;
     alert('导出码已生成，请复制下方的代码保存。');
 }
@@ -972,19 +940,14 @@ function importData() {
     }
 }
 
-
-
-// --- 键盘事件监听 ---
 document.addEventListener('keydown', function(event) {
     const quizModal = document.getElementById('quiz-modal');
-    // Check if modal is actually visible (using offsetParent or getComputedStyle for robustness)
     const isModalVisible = quizModal.style.display === 'block' && window.getComputedStyle(quizModal).display !== 'none';
     
     if (isModalVisible) {
         const question = quizQuestions[currentQuestionIndex];
         const key = event.key.toUpperCase();
         
-        // 选项选择逻辑 (Only if answering)
         if (quizState === 'ANSWERING' && question) {
             if (question.type === 'mcq') {
                 if (['A','B','C','D'].includes(key) || ['1','2','3','4'].includes(key)) {
@@ -994,33 +957,28 @@ document.addEventListener('keydown', function(event) {
                 }
             } else if (question.type === 'tf') {
                 const options = document.querySelectorAll('input[name="quizOption"]');
-                // Support T/F keys
-                if (key === 'T' && options[0]) options[0].checked = true; // Correct / True
-                if (key === 'F' && options[1]) options[1].checked = true; // Incorrect / False
+                if (key === 'T' && options[0]) options[0].checked = true;
+                if (key === 'F' && options[1]) options[1].checked = true;
                 
-                // Support 1/2 keys (1=True/Correct, 2=False/Incorrect)
                 if (key === '1' && options[0]) options[0].checked = true;
                 if (key === '2' && options[1]) options[1].checked = true;
                 
-                // Also support A/B mapping for muscle memory
                 if (key === 'A' && options[0]) options[0].checked = true;
                 if (key === 'B' && options[1]) options[1].checked = true;
             }
         }
 
-        // Space to Skip (Answer) or Next (Feedback)
         if (event.code === 'Space') {
              event.preventDefault(); 
              if (quizState === 'ANSWERING') {
-                 submitQuizAnswer(true); // Skip
+                 submitQuizAnswer(true);
              } else if (quizState === 'FEEDBACK') {
                  nextQuizQuestion();
              }
         }
 
-        // 提交确认/下一题
         if (event.key === 'Enter') {
-            event.preventDefault(); // Prevent standard button clicks
+            event.preventDefault();
             
             if (quizState === 'ANSWERING') {
                 submitQuizAnswer();
@@ -1031,15 +989,14 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-// --- 初始化 ---
 window.onload = function() {
     setupTheme();
     setupMobileMenu();
     loadWrongAnswers();
     loadFavorites();
-    loadStats(); // Load stats on start
-    loadNotepad(); // Load notepad
-    initWallpaper(); // Load wallpaper
+    loadStats();
+    loadNotepad();
+    initWallpaper();
     processData();
     createNavigationAndContent();
 };
